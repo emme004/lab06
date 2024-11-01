@@ -6,11 +6,12 @@ package it.unibo.collections.social.impl;
 import it.unibo.collections.social.api.SocialNetworkUser;
 import it.unibo.collections.social.api.User;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +27,13 @@ import java.util.Set;
  *            Specific {@link User} type
  */
 public final class SocialNetworkUserImpl<U extends User> extends UserImpl implements SocialNetworkUser<U> {
+    
+    private final Map<String, Set<U>> friends;
 
+    public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
+        super(name, surname, user, userAge);
+        this.friends = new HashMap<>();
+    }
     /*
      *
      * [FIELDS]
@@ -61,10 +68,10 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      *            alias of the user, i.e. the way a user is identified on an
      *            application
      */
-    public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(null, null, null, 0);
-    }
 
+    public SocialNetworkUserImpl(final String name, final String surname, final String user) {
+        this(name, surname, user, -1);
+    }  
     /*
      * 2) Define a further constructor where the age defaults to -1
      */
@@ -76,8 +83,14 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        return false;
+        Set<U> groupCircle = this.friends.get(circle);
+        if(groupCircle == null){
+            groupCircle = new HashSet<>();
+            this.friends.put(circle, groupCircle);
+        }
+        return groupCircle.add(user);
     }
+   
 
     /**
      *
@@ -86,11 +99,19 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        final Collection<U> users = this.friends.get(groupName);
+        if(users == null){
+            return new LinkedList<>(users);
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+        final Set<U> followedPeople = new HashSet<>();
+        for(final Set<U> circleGroup : friends.values()){
+            followedPeople.addAll(circleGroup);
+        }
+        return new LinkedList<>(followedPeople);
     }
 }
