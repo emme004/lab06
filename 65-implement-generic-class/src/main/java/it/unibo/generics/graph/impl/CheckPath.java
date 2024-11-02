@@ -1,21 +1,21 @@
 package it.unibo.generics.graph.impl;
 
 public class CheckPath<N> {
-    private int distance;
+    private Integer distance;
     private N father;
-    private N oneNode;
+    private final N oneNode;
 
-    public CheckPath(N node) {
-        this.distance = 0;
+    public CheckPath(final N node) {
         this.father = null;
+        this.distance = null;
         this.oneNode = node;
     }
 
-    public int getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(final int distance) {
+    public void setDistance(final Integer distance) {
         this.distance = distance;
     }
 
@@ -23,7 +23,7 @@ public class CheckPath<N> {
         return father;
     }
 
-    public void setFather(final N father) {
+    public void setFather(N father) {
         this.father = father;
     }
 

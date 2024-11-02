@@ -4,7 +4,6 @@ import it.unibo.generics.graph.api.Graph;
 import it.unibo.generics.graph.impl.GraphImpl;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 

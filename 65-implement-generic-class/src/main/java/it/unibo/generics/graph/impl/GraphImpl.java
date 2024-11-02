@@ -2,21 +2,15 @@ package it.unibo.generics.graph.impl;
 
 import it.unibo.generics.graph.api.Graph;
 
-import java.util.Collections;
-import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-
-import it.unibo.generics.graph.api.Graph;
 
 public class GraphImpl<N> implements Graph<N>{
 
-    private final Map<N, Set<N>> edges = new LinkedHashMap<>();
+    private Map<N, Set<N>> edges = new HashMap<N, Set<N>>();
 
     @Override
     public void addNode(final N node) {
@@ -42,6 +36,7 @@ public class GraphImpl<N> implements Graph<N>{
 
     @Override
     public List<N> getPath(final N source, final N target) {
-        return null;
+        final CheckPathImpl<N> path = new CheckPathImpl<>(edges);
+        return path.checkingPath(source, target);
     }
 }
