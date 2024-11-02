@@ -21,13 +21,7 @@ public final class UseGraph {
      *            ignored
      */
     public static void main(final String... args) {
-        final List<Graph<String>> graphs = List.of(
-            new GraphImpl<>(BreadthFirst.getInstance()),
-            new GraphImpl<>(BreadthFirst.getInstance())
-        );
-        for (final var graph: graphs) {
-            testGraph(graph);
-        }
+        testGraph(new GraphImpl<>());
         /*
          * Test your graph implementation(s) by calling testGraph
          */
