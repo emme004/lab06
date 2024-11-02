@@ -8,7 +8,6 @@ import it.unibo.collections.social.api.User;
 
 //import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -99,19 +98,24 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        final Collection<U> users = this.friends.get(groupName);
-        if(users == null){
-            return new LinkedList<>(users);
+        Collection<U> users; 
+        if(friends.containsKey(groupName)){
+            users = new LinkedList<U>(friends.get(groupName));
+        } else{
+            users = new LinkedList<U>();
         }
-        return Collections.emptyList();
+        
+        return users;
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        final Set<U> followedPeople = new HashSet<>();
-        for(final Set<U> circleGroup : friends.values()){
-            followedPeople.addAll(circleGroup);
+        List<U> followedPeople = new LinkedList<>();
+
+        for(String keyString : friends.keySet()){
+            followedPeople.addAll(friends.get(keyString));
         }
-        return new LinkedList<>(followedPeople);
+
+        return followedPeople;
     }
 }
